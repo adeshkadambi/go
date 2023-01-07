@@ -1,7 +1,5 @@
 """Module for the stones on the board."""
 
-from typing import Optional
-
 
 class Coordinates:
     """Coordinates of a stone on the board."""
@@ -32,21 +30,21 @@ class Coordinates:
 class Stone:
     """A stone on the board."""
 
-    black: bool
+    is_black: bool
     location: Coordinates
     liberties: list[Coordinates]
 
-    def __init__(self, x: int, y: int, black: bool):
+    def __init__(self, x: int, y: int, is_black: bool):
         if x < 0 or y < 0:
             raise ValueError("Stone not on board.")
-            
+
         self.location = Coordinates(x, y)
         self.liberties = []
-        self.black = black
+        self.is_black = is_black
 
     def __repr__(self) -> str:
         """Returns the stone in a string."""
-        return f"Stone(location:{self.location}, black:{self.black})"
+        return f"Stone(location:{self.location}, black:{self.is_black})"
 
     @property
     def coords(self) -> Coordinates:
@@ -69,14 +67,14 @@ class Stone:
 class StoneGroup:
     """A group of stones on the board."""
 
-    black: bool
+    is_black: bool
     stones: list[Stone]
     liberties: list[Coordinates]
 
     def __init__(self, stone: Stone):
         self.stones = [stone]
         self.liberties = stone.get_liberties
-        self.black = stone.black
+        self.is_black = stone.is_black
 
     @property
     def get_liberties(self) -> list[Coordinates]:

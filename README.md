@@ -33,11 +33,12 @@ classDiagram
     class MoveChecker{
         - check_ko()
         - check_sd()
+        - check_onboard()
         + check_move(Stone, turns) -> Bool
     }
 
     class PlayerView {
-        black: bool
+        is_black: bool
 
         + print_board(BoardModel)
     }
@@ -49,7 +50,7 @@ classDiagram
     }
 
     class Stone {
-        black:bool
+        is_black:bool
         location:Coordinates
         liberties:[Coordinates]
 
@@ -58,7 +59,7 @@ classDiagram
     }
 
     class StoneGroup {
-        black:bool
+        is_black:bool
         stones:[Stone]
         liberties:[Coordinates]
 
