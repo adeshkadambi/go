@@ -17,8 +17,7 @@ classDiagram
 
     class BoardModel {
         board:[[*StoneGroup]]
-        groups_white:[Stone]
-        groups_black:[Stone]
+        groups: [StoneGroup]
     }
 
     class GameController {
@@ -38,13 +37,9 @@ classDiagram
     }
 
     class PlayerView {
-        color: bool
+        black: bool
 
         + print_board(BoardModel)
-    }
-
-    class Stone {
-        location:Coordinates
     }
 
     class Coordinates {
@@ -53,12 +48,25 @@ classDiagram
         get_coords() -> (int, int)
     }
 
+    class Stone {
+        black:bool
+        location:Coordinates
+        liberties:[Coordinates]
+
+        coords() -> Coordinates
+        get_liberties() -> [Coordinates]
+    }
+
     class StoneGroup {
+        black:bool
         stones:[Stone]
         liberties:[Coordinates]
 
-        remove_liberty(Stone) ->
-        delete   
+        get_liberties() -> [Coordinates]
+        num_liberties() -> int
+        add_stone(Stone) -> None
+        add_liberty(Coordinates) -> None
+        remove_liberty(Coordinates) -> None
     }
 ```
 
