@@ -18,6 +18,7 @@ classDiagram
     class BoardModel {
         board:[[*StoneGroup]]
         groups: [StoneGroup]
+        add_stone(Stone) -> None
     }
 
     class GameController {

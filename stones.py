@@ -55,12 +55,17 @@ class Stone:
     def get_liberties(self) -> list[Coordinates]:
         """Returns the liberties of the stone."""
         x, y = self.location.get_coords
-        self.liberties = [
+        
+        liberties = [
             Coordinates(x + 1, y),
             Coordinates(x - 1, y),
             Coordinates(x, y + 1),
             Coordinates(x, y - 1),
         ]
+
+        # filter self.liberties to make sure coordinates cannot be negative
+        self.liberties = list(filter(lambda coords: coords.x >= 0 and coords.y >= 0, liberties))
+
         return self.liberties
 
 
