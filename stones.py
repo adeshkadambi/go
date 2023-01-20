@@ -1,5 +1,4 @@
-"""Module for the stones on the board."""
-
+from __future__ import annotations
 
 class Coordinates:
     """Coordinates of a stone on the board."""
@@ -78,11 +77,12 @@ class StoneGroup:
     stones: list[Stone]
     liberties: list[Coordinates]
 
-    def __init__(self, stone: Stone):
+    def __init__(self, stone: Stone, groups:list[StoneGroup]):
         self.stones = [stone]
         self.liberties = stone.get_liberties
-        # TODO: any new group will always have all liberties, need to remove liberties based on other groups
         self.is_black = stone.is_black
+        
+        self.update_liberties(groups)
 
     @property
     def get_liberties(self) -> list[Coordinates]:
@@ -94,14 +94,16 @@ class StoneGroup:
         """Returns the number of liberties of the group."""
         return len(self.liberties)
 
-    def add_stone(self, stone: Stone) -> None:
+    def add_stone(self, stone: Stone, groups:list[StoneGroup]) -> None:
         """Adds a stone to the group."""
         self.stones.append(stone)
         self.liberties.extend(stone.get_liberties)
 
         for stone in self.stones:
             if stone.coords in self.liberties:
-                self.liberties.remove(stone.coords)
+                self.remove_liberty(stone.coords)
+        
+        self.update_liberties(groups)
 
     def add_liberty(self, coords: Coordinates) -> None:
         """Adds a liberty to the group."""
@@ -110,3 +112,21 @@ class StoneGroup:
     def remove_liberty(self, coords: Coordinates) -> None:
         """Removes a liberty from the group."""
         self.liberties.remove(coords)
+
+    def update_liberties(self, groups: list[StoneGroup]) -> None:
+        """Updates the liberties of the group by recalculating all liberties."""
+        self.liberties = []
+
+        for stone in self.stones:
+            self.liberties.extend(stone.get_liberties)
+
+        for stone in self.stones:
+            if stone.coords in self.liberties:
+                self.remove_liberty(stone.coords)
+
+        for group in groups:
+            if group is not self:
+                for stone in group.stones:
+                    if stone.coords in self.liberties:
+                        self.remove_liberty(stone.coords)
+        
