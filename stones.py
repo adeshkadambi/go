@@ -55,7 +55,7 @@ class Stone:
     def get_liberties(self) -> list[Coordinates]:
         """Returns the liberties of the stone."""
         x, y = self.location.get_coords
-        
+
         liberties = [
             Coordinates(x + 1, y),
             Coordinates(x - 1, y),
@@ -64,7 +64,9 @@ class Stone:
         ]
 
         # filter self.liberties to make sure coordinates cannot be negative
-        self.liberties = list(filter(lambda coords: coords.x >= 0 and coords.y >= 0, liberties))
+        self.liberties = list(
+            filter(lambda coords: coords.x >= 0 and coords.y >= 0, liberties)
+        )
 
         return self.liberties
 
@@ -79,6 +81,7 @@ class StoneGroup:
     def __init__(self, stone: Stone):
         self.stones = [stone]
         self.liberties = stone.get_liberties
+        # TODO: any new group will always have all liberties, need to remove liberties based on other groups
         self.is_black = stone.is_black
 
     @property
