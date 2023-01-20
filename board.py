@@ -50,6 +50,7 @@ class Board:
         """Add a stone to the board."""
         self.board[stone.coords.x][stone.coords.y] = stone
         self.connected_to_group(stone, self.groups)
+        self.consolidate_captures()
 
     def connected_to_group(self, new_stone: Stone, groups: list[StoneGroup]) -> None:
         """Checks if a stone is connected to another group and forms connections."""
