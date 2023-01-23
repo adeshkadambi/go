@@ -1,5 +1,4 @@
 # PyGo
-# PyGo
 Implementation of the go board game in Python.
 
 ```mermaid
